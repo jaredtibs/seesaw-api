@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  errors:
+    unauthorized: bad credentials
+    server_error: something went wrong
+    bad_request: invalid request
