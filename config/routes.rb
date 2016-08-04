@@ -7,5 +7,4 @@ Rails.application.routes.draw do
     post 'sessions'       => 'sessions#create'
     get  'sessions'       => 'sessions#show'
   end
-
 end
