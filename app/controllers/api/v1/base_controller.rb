@@ -13,4 +13,14 @@ class Api::V1::BaseController < ApplicationController
     render json: { errors: t('errors.server_error') }, status: :internal_server_error
   end
 
+  def not_found
+    render json: { errors: t('errors.not_found') }, status: :not_found
+  end
+
+  private
+
+  def serialize(data, is_collection=false)
+    JSONAPI::Serializer.serialize(data is_collection)
+  end
+
 end

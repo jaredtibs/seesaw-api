@@ -12,6 +12,12 @@ Rails.application.routes.draw do
         delete '/sessions'    => 'sessions#destroy'
       end
 
+      # users
+      get  'users'           => 'users#index'
+      get  'users/:username' => 'users#show'
+      put  'users/:id'       => 'users#update'
+      post 'reset-password'  => 'users#reset_password'
+      put  'reset-password'  => 'users#update_password'
     end
   end
 end

@@ -24,3 +24,10 @@ en:
     unauthorized: bad credentials
     server_error: something went wrong
     bad_request: invalid request
+    not_found: not found
+    users:
+      not_found: user not found
+  success:
+    users:
+      reset_password_sent: reset password instructions sent
+
