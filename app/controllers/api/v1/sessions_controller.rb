@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::V1::SessionsController < Api::V1::BaseController
   before_action :authenticate_user!, except: :create
 
   def create

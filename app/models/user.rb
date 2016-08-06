@@ -6,9 +6,11 @@ class User < ApplicationRecord
   has_many :posts
 
   def self.create_token_for(user)
-    {
-      user_id: user.id,
-      email: user.email
-    }
+    JsonWebToken.encode(
+      {
+        user_id: user.id,
+        email: user.email
+      }
+    )
   end
 end

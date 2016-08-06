@@ -1,11 +1,11 @@
-class RegistrationsController < ApplicationController
+class Api::V1::RegistrationsController < Api::V1::BaseController
 
   def create
     user = User.new registration_params
     if user.save
       token = User.create_token_for(user)
       sign_in user
-      render json: { token: token }, status: created
+      render json: { token: token }, status: :created
     else
       render json: { errors: user.errors.full_messages },
         status: :unprocessable_entity

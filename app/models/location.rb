@@ -4,8 +4,8 @@ class Location < ApplicationRecord
 
   has_many :posts
 
-  geocoded_by :latitude, :longitude
+  geocoded_by :address, :latitude  => :latitude, :longitude => :longitude
   reverse_geocoded_by :latitude, :longitude
-  #after_validation :geocode
-  #after_validation :reverse_geocode
+  after_validation :geocode
+  after_validation :reverse_geocode
 end
