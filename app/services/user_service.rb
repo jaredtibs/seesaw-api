@@ -1,6 +1,13 @@
 class UserService
   class << self
 
+    def generate_token_for(user)
+      JsonWebToken.encode({
+        user_id: user.id,
+        email: user.email
+      })
+    end
+
     def send_reset_password_instructions(user)
       token_raw, token_enc = Devise.token_generator.generate \
         User, :reset_password_token
@@ -12,7 +19,7 @@ class UserService
     def update_password(user, params)
       if user.reset_password_period_valid?
         if user.reset_password params[:password], params[:password_confirmation]
-          token = User.create_token_for user
+          token = generate_token_for user
           {result: { success: token } }
         else
           {result: { errors: "error updating password" } }

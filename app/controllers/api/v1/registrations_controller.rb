@@ -3,7 +3,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
   def create
     user = User.new registration_params
     if user.save
-      token = User.create_token_for(user)
+      token = UserService.generate_token_for(user)
       sign_in user
       render json: { token: token }, status: :created
     else

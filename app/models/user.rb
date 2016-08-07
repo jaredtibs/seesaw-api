@@ -5,12 +5,4 @@ class User < ApplicationRecord
   has_many :locations, through: :user_locations
   has_many :posts
 
-  def self.create_token_for(user)
-    JsonWebToken.encode(
-      {
-        user_id: user.id,
-        email: user.email
-      }
-    )
-  end
 end
