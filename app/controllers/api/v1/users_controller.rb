@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :authenticate_user!, except: :create
+  before_action :authenticate_user!, only: [:show, :index, :update]
   before_action :find_user_by_name, only: [:show]
   before_action :find_user_by_id, only: [:update]
 

@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   scope module: :api do
     scope module: :v1 do
 
-
       scope 'api/v1' do
+
         devise_for :users, skip: :all
         devise_scope :user do
           post 'registrations'  => 'registrations#create'
@@ -20,6 +20,10 @@ Rails.application.routes.draw do
         put  'users/:id'       => 'users#update'
         post 'reset-password'  => 'users#reset_password'
         put  'reset-password'  => 'users#update_password'
+
+        # locations
+        get 'locations' => 'locations#nearby'
+
       end
 
     end
