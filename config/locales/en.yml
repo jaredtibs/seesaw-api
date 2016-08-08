@@ -30,4 +30,5 @@ en:
   success:
     users:
       reset_password_sent: reset password instructions sent
+      account_update: user account successfully updated
 

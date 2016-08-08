@@ -15,14 +15,14 @@ class Api::V1::UsersController < Api::V1::BaseController
     @users = User.order('created_at desc')
     render json: JSONAPI::Serializer.serialize(
       @users,
-      meta: { count: users.count },
+      meta: { count: @users.count },
       is_collection: true),
       status: :ok
   end
 
   def update
     if @user.update update_params
-      render json: { success:  'account updated'}, status: :ok
+      render json: { success:  I18n.t('success.users.account_updated')}, status: :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -30,12 +30,13 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def reset_password
     @user = User.find_by email: params[:email]
+
     if @user
-      UserService.send_reset_password_instructions @user
-      #TODO send reset password instructions email
-      render json: { success: t('errors.success.reset_password_sent') }, status: :ok
+      token = UserService.send_reset_password_instructions @user
+      #TODO send reset password instructions email and remove token from response
+      render json: { success: I18n.t('success.users.reset_password_sent'), password_token: token }, status: :ok
     else
-      render json: { errors: t('errors.user_not_found') }, status: :unprocessable_entity
+      render json: { errors: I18n.t('errors.user_not_found') }, status: :unprocessable_entity
     end
   end
 
@@ -50,7 +51,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       outcome = UserService.update_password(user, update_password_params)
       if outcome[:result] == "success"
         sign_in user
-        render json: {'token' => outcome[:result][:token]}, status: :ok
+        render json: {token: outcome[:result][:token]}, status: :ok
       else
         render json: {errors: outcome[:result][:errors]}, status: :unprocessable_entity
       end
@@ -72,7 +73,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update_params
-    params.permit(:slug)
+    params.permit(:username)
   end
 
   def reset_password_params
@@ -89,9 +90,6 @@ class Api::V1::UsersController < Api::V1::BaseController
       :password,
       :password_confirmation
     )
-  end
-
-  def update_email_params
   end
 
 end

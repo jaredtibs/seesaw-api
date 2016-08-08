@@ -8,7 +8,7 @@ class UserSerializer
     last_sign_in_at = object.last_sign_in_at
     if last_sign_in_at.present?
       object.last_sign_in_at.in_time_zone("Pacific Time (US & Canada)")
-              .strftime("%m/%d/%y | %l:%M%p")
+              .strftime("%m/%d/%y %l:%M%p")
     else
       "N/A"
     end

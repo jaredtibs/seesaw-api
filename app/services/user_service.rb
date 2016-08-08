@@ -9,11 +9,14 @@ class UserService
     end
 
     def send_reset_password_instructions(user)
-      token_raw, token_enc = Devise.token_generator.generate \
+      token_raw, token_enc = Devise.token_generator.generate(
         User, :reset_password_token
+      )
       user.reset_password_token = token_enc
       user.reset_password_sent_at = Time.now
       user.save
+
+      token_raw
     end
 
     def update_password(user, params)
@@ -23,6 +26,7 @@ class UserService
           {result: { success: token } }
         else
           {result: { errors: "error updating password" } }
+        end
       else
         {result: { errors: "reset password token expired" } }
       end
