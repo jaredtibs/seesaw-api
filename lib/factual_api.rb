@@ -6,7 +6,11 @@ class FactualApi
     client.table("places-us").geo(
       "$circle" => {
         "$center" => coordinates,
-        "$meters" => meters
+        "$meters" => meters,
+        "$sort"   => {
+          "distance" => 1000,
+          "placerank" => 100
+        }
       }
     ).rows
   end
