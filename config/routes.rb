@@ -22,8 +22,7 @@ Rails.application.routes.draw do
         put  'reset-password'  => 'users#update_password'
 
         # locations
-        get 'locations' => 'locations#nearby'
-
+        get 'locations' => 'locations#check'
       end
 
     end

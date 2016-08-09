@@ -1,14 +1,20 @@
 class LocationService
   class << self
 
-    def find_or_create_nearest_location(coordinates)
-      nearest_location = Location.near(coordinates).first
-      return nearest_location if nearest_location
+    def find_nearest_location(coordinates)
+      Location.near(coordinates).first
+    end
 
-      Location.create(
-        latitude: coordinates[0],
-        longitude: coordinates[1]
-      )
+    def find_or_create_nearest_location(coordinates)
+      nearest_location = find_nearest_location(coordinates)
+      if nearest_location.blank?
+        Location.create(
+          latitude: coordinates[0],
+          longitude: coordinates[1]
+        )
+      else
+        nearest_location
+      end
     end
 
   end
