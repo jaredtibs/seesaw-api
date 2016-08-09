@@ -17,5 +17,12 @@ class LocationService
       end
     end
 
+    def find_or_create_nearest_location(coordinates)
+     # check db for existing nearby locations (using geocoder
+     # if none are found
+     #   make request to Factual to find nearest locations
+    #  return nearest to user, kick off job to seed other locations
+    end
+
   end
 end
