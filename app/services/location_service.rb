@@ -22,6 +22,11 @@ class LocationService
      # if none are found
      #   make request to Factual to find nearest locations
     #  return nearest to user, kick off job to seed other locations
+      #
+      #
+      #  or
+      #
+      #  do not use geocoder for query to find location, use factual, and then match on factual id you are storing to surface location with posts
     end
 
   end
