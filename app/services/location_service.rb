@@ -1,32 +1,49 @@
 class LocationService
   class << self
 
-    def find_nearest_location(coordinates)
+    def find_current_location(coordinates)
       Location.near(coordinates).first
+      # or use factual to find nearby, attempt to match on id, if no match found,
+      # create closest location from factual data
+      # FactualApi.nearby_places(coordinates)
     end
 
-    def find_or_create_nearest_location(coordinates)
-      nearest_location = find_nearest_location(coordinates)
+    def find_or_create_current_location(coordinates)
+      nearest_location = find_current_location(coordinates)
+
       if nearest_location.blank?
-        Location.create(
-          latitude: coordinates[0],
-          longitude: coordinates[1]
-        )
+        factual_data = FactualApi.nearby_places(coordinates)
+        if factual_data
+          create_location_from_factual(factual_data.first)
+        else
+          create_raw_location(coordinates)
+          # you will need to reverse geocode in this instance, possible flag it and then adjust revere geocode callback to only run if flagged
+        end
       else
         nearest_location
       end
     end
 
-    def find_or_create_nearest_location(coordinates)
-     # check db for existing nearby locations (using geocoder
-     # if none are found
-     #   make request to Factual to find nearest locations
-    #  return nearest to user, kick off job to seed other locations
-      #
-      #
-      #  or
-      #
-      #  do not use geocoder for query to find location, use factual, and then match on factual id you are storing to surface location with posts
+    def create_location_from_factual(factual_data)
+      data = factual_data.symbolize_keys
+
+      Location.create(
+        factual_id: data[:factual_id],
+        latitude: data[:latitude],
+        longitude: data[:longitude],
+        postal_code: data[:postcode],
+        city: data[:locality],
+        region: data[:region],
+        country: data[:country],
+        name: data[:name],
+        categories: data[:category_labels]
+      )
+
+      # possibly seed other locations after this.
+    end
+
+    def create_raw_location(coordinates)
+
     end
 
   end
