@@ -2,12 +2,22 @@ class Api::V1::PostsController < Api::V1::BaseController
   before_action :authenticate_user!
 
   def create
-    #params[:location_id]
-    # create a post for a user and location
+    @post = current_user.posts.build(post_params)
+    if @post.save
+      render json: JSONAPI::Serializer.serialize(@post), status: :created
+    else
+      render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
-  def feed
 
+  private
+
+  def post_params
+    params.permit(
+      :location_id,
+      :body
+    )
   end
 
 end

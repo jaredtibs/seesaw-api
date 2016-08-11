@@ -9,6 +9,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
     if @location.unseen_posts_for(current_user).any?
       # TODO send notification of posts if posts live at location
+      # rpush https://github.com/rpush/rpush
     end
 
     head :ok
