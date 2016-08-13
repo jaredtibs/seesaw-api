@@ -2,7 +2,9 @@ class PostSerializer
   include JSONAPI::Serializer
 
   attributes(
-    :body
+    :created_at,
+    :body,
+    :user
   )
 
   def type

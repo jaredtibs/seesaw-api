@@ -30,7 +30,7 @@ class Location < ApplicationRecord
 
   def serialized_posts
     JSONAPI::Serializer.serialize(
-      posts,
+      posts.order('created_at desc'),
       meta: { count: posts.count },
       is_collection: true
     )
