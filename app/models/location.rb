@@ -28,6 +28,14 @@ class Location < ApplicationRecord
     #TODO
   end
 
+  def serialized_posts
+    JSONAPI::Serializer.serialize(
+      posts,
+      meta: { count: posts.count },
+      is_collection: true
+    )
+  end
+
   def fetch_location_data
     # Factual API
   end

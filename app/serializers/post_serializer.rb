@@ -1,13 +1,16 @@
-class UserSerializer
+class PostSerializer
   include JSONAPI::Serializer
 
   attributes(
-    :email,
-    :username
+    :body
   )
 
   def type
     object.class.name
+  end
+
+  def user
+    object.serialized_user
   end
 
   def self_link

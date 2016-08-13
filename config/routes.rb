@@ -25,8 +25,7 @@ Rails.application.routes.draw do
         get 'locations/check'   => 'locations#check'
         get 'locations/current' => 'locations#show'
 
-        post 'locations/:location_id/posts' => 'posts#create'
-        #possibly move above to locations controller
+        post 'locations/:location_id/posts' => 'locations#create_post'
       end
 
     end

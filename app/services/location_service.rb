@@ -2,7 +2,7 @@ class LocationService
   class << self
 
     def find_current_location(coordinates)
-      Location.near(coordinates).first
+      Location.near(coordinates, 0.0621371).first
       # or use factual to find nearby, attempt to match on id, if no match found,
       # create closest location from factual data
       # FactualApi.nearby_places(coordinates)
@@ -36,7 +36,7 @@ class LocationService
         region: data[:region],
         country: data[:country],
         name: data[:name],
-        categories: data[:category_labels]
+        categories: data[:category_labels].flatten.uniq
       )
 
       # possibly seed other locations after this.
