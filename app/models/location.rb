@@ -7,18 +7,20 @@ class Location < ApplicationRecord
   geocoded_by :address, :latitude  => :latitude, :longitude => :longitude
   reverse_geocoded_by :latitude, :longitude
 #reverse_geocoded_by :latitude, :longitude do |obj, results|
-#  if geo = results.first
-#    obj.city = geo.city
-#    obj.state = geo.state
-#    obj.postal_code = geo.postal_code
-#    obj.country = geo.country
-#  end
+  # if obj.raw?
+#     if geo = results.first
+#       obj.city = geo.city
+#       obj.state = geo.state
+#       obj.postal_code = geo.postal_code
+#       obj.country = geo.country
+#     end
+  # end
 #end
 
   after_validation :geocode
   after_validation :reverse_geocode
 
-  after_commit :fetch_location_data, on: :create
+  after_commit :fetch_location_image, on: :create
 
   def coordinates
     [latitude, longitude]
@@ -36,7 +38,7 @@ class Location < ApplicationRecord
     )
   end
 
-  def fetch_location_data
-    # Factual API
+  def fetch_location_image
+    # google api?
   end
 end
