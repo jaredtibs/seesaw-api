@@ -2,7 +2,7 @@ require 'factual'
 
 class FactualApi
 
-  def self.nearby_places(coordinates, meters=100)
+  def self.nearby_places(coordinates, meters=50)
     client.table("places-us").geo(
       "$circle" => {
         "$center" => coordinates,
