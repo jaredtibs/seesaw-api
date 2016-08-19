@@ -11,7 +11,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @location = LocationService.find_current_location(@coordinates)
 
     if @location.unseen_posts_for(current_user).any?
-      # TODO send notification of posts if posts live at location
+      # TODO send notification of posts if posts present at location
       # rpush https://github.com/rpush/rpush
     end
 
@@ -22,6 +22,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
   # serialize location and its posts
   def show
     @location = LocationService.find_or_create_current_location(@coordinates)
+    current_user.locations << @location
+   # UpdateVisitorTimestamp.perform_async(current_user.id, @location.id)
     render json: JSONAPI::Serializer.serialize(@location), status: :ok
   end
 
@@ -29,12 +31,12 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @post = @location.posts.build(post_params)
 
     if @post.save
+      current_user.posts << @post
       render json: JSONAPI::Serializer.serialize(@post), status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
     end
   end
-
 
   private
 
@@ -50,7 +52,6 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def post_params
     params.permit(
-      :user_id,
       :body
     )
   end

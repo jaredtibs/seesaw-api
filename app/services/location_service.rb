@@ -3,9 +3,6 @@ class LocationService
 
     def find_current_location(coordinates)
       Location.near(coordinates, 0.0621371).first
-      # or use factual to find nearby, attempt to match on id, if no match found,
-      # create closest location from factual data
-      # FactualApi.nearby_places(coordinates)
     end
 
     def find_or_create_current_location(coordinates)
@@ -45,6 +42,11 @@ class LocationService
     def create_raw_location(coordinates)
 
     end
+
+    def nearby_locations(coordinates)
+      FactualApi.nearby_places(coordinates)
+    end
+
 
   end
 end
