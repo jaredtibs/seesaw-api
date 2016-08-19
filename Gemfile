@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby "2.3.1"
 
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'acts_as_votable', '~> 0.10.0'
 gem 'devise'
 gem 'factual-api'
 gem 'geocoder'

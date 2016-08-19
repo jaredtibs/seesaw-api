@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
     if @user
       token = UserService.send_reset_password_instructions @user
-      #TODO send reset password instructions email and remove token from response
+      #TODO send reset password instructions email
       render json: { success: I18n.t('success.users.reset_password_sent')}, status: :ok
     else
       render json: { errors: I18n.t('errors.user_not_found') }, status: :unprocessable_entity

@@ -24,8 +24,15 @@ Rails.application.routes.draw do
         # locations
         get 'locations/check'   => 'locations#check'
         get 'locations/current' => 'locations#show'
-
         post 'locations/:location_id/posts' => 'locations#create_post'
+
+        # posts
+        post 'posts/:id/report'   => 'posts#report'
+        post 'posts/:id/upvote'   => 'posts#upvote'
+        post 'posts/:id/downvote' => 'posts#downvote'
+        delete 'posts/:id/vote'   => 'posts#unvote'
+        get 'posts/:id/upvotes'   => 'posts#upvotes'
+        get 'posts/:id/downvotes' => 'posts#downvotes'
       end
 
     end
