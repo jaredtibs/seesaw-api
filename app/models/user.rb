@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :username, presence: true, length: { minimum: 2 },
             uniqueness: { case_sensitive: false }, on: [:create, :update]
 
+  validates_uniqueness_of :email
+
   acts_as_voter
 
   def upvote(post)
