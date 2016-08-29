@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819044733) do
+ActiveRecord::Schema.define(version: 20160829021204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 20160819044733) do
     t.string   "factual_id"
     t.string   "categories",  default: [],              array: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", unique: true, using: :btree
+  end
+
+  create_table "media", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.integer  "kind",       default: 1
+    t.string   "caption"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["post_id"], name: "index_media_on_post_id", using: :btree
+    t.index ["user_id"], name: "index_media_on_user_id", using: :btree
   end
 
   create_table "posts", force: :cascade do |t|
