@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_many :locations, through: :user_locations
   has_many :posts
 
+  validates :username, presence: true, length: { minimum: 2 },
+            uniqueness: { case_sensitive: false }, on: [:create, :update]
+
   acts_as_voter
 
   def upvote(post)

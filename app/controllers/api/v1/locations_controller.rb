@@ -23,7 +23,6 @@ class Api::V1::LocationsController < Api::V1::BaseController
   def show
     @location = LocationService.find_or_create_current_location(@coordinates)
     current_user.locations << @location
-   # UpdateVisitorTimestamp.perform_async(current_user.id, @location.id)
     render json: JSONAPI::Serializer.serialize(@location), status: :ok
   end
 
