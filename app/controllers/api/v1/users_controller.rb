@@ -1,7 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :authenticate_user!, only: [:show, :index, :update]
+  before_action :authenticate_user!, only: [:show, :index, :update, :update_email]
   before_action :find_user_by_name, only: [:show]
-  before_action :find_user_by_id, only: [:update]
 
   def show
     if @user
@@ -21,7 +20,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @user.update update_params
+    if current_user.update update_params
       render json: { success:  I18n.t('success.users.account_updated')}, status: :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
@@ -60,12 +59,23 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
-  #TODO update email endpoint
-  private
+  def update_email
+    password = update_email_params[:password]
+    email = update_email_params[:email]
 
-  def find_user_by_id
-    @user = User.find_by id: params[:id]
+    if current_user.valid_password?(password)
+      current_user.email = email
+      if current_user.save
+        render json: { success: "email updated" }, status: :ok
+      else
+        render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { errors: "invalid password" }, status: :forbidden
+    end
   end
+
+  private
 
   def find_user_by_name
     @user = User.find_by username: params[:username]
@@ -90,6 +100,11 @@ class Api::V1::UsersController < Api::V1::BaseController
       :password,
       :password_confirmation
     )
+  end
+
+  def update_email_params
+    params.require(:password, :email)
+    params.permit(:password, :email)
   end
 
 end

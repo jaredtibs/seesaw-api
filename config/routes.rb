@@ -17,7 +17,8 @@ Rails.application.routes.draw do
         # users
         get  'users'           => 'users#index'
         get  'users/:username' => 'users#show'
-        put  'users/:id'       => 'users#update'
+        put  'user'            => 'users#update'
+        put  'user/email'      => 'users#update_email'
         post 'reset-password'  => 'users#reset_password'
         put  'reset-password'  => 'users#update_password'
 
