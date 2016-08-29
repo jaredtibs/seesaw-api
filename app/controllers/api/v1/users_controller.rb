@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user
       render json: JSONAPI::Serializer.serialize(@user), status: :ok
     else
-      render_not_found
+      not_found
     end
   end
 

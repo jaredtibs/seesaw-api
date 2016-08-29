@@ -17,5 +17,8 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order = :random
 
+  #config.include Devise::TestHelpers, :type => :controller
+  #config.include ControllerHelpers, :type => :controller
+
   Kernel.srand config.seed
 end
