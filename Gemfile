@@ -7,6 +7,7 @@ gem 'acts_as_votable', '~> 0.10.0'
 gem 'carrierwave'
 gem 'devise'
 gem 'factual-api'
+gem "fog-aws"
 gem 'geocoder'
 gem 'jwt'
 gem 'jsonapi-serializers'

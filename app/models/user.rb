@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :recoverable
 
-  mount_uploader :avatar, AvatarUploader
+  #mount_uploader :avatar, AvatarUploader
 
   has_many :user_locations
   has_many :locations, through: :user_locations
