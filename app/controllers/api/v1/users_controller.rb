@@ -61,7 +61,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   #TODO update email endpoint
-
   private
 
   def find_user_by_id
