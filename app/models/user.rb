@@ -16,14 +16,12 @@ class User < ApplicationRecord
 
   def upvote(post)
     post.vote_by voter: self
-  end
-
-  def downvote(post)
-    post.downvote_from self
+    Post.increment_counter(:upvote_count, post.id)
   end
 
   def unvote(post)
     post.unvote_by self
+    Post.decrement_counter(:upvote_count, post.id)
   end
 
 end
