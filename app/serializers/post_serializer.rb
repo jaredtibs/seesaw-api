@@ -4,7 +4,8 @@ class PostSerializer
   attributes(
     :created_at,
     :body,
-    :user
+    :user,
+    :upvote_count
   )
 
   def type

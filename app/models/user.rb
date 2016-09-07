@@ -24,4 +24,14 @@ class User < ApplicationRecord
     Post.decrement_counter(:upvote_count, post.id)
   end
 
+  def report(post)
+    unless post.reported_by.include?(self.id)
+      post.reported_by |= [self.id]
+      if post.reported_by.size >= 3
+        post.hidden = true
+      end
+      post.save
+    end
+  end
+
 end

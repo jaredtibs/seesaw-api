@@ -27,6 +27,11 @@ class Api::V1::PostsController < Api::V1::BaseController
   end
 
   def report
+    if current_user.report(@post)
+      render json: {success: "post reported"}, status: :ok
+    else
+      render json: {errors: "unable to report post"}, status: :unprocessable_entity
+    end
   end
 
   def upvotes
