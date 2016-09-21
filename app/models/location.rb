@@ -26,10 +26,6 @@ class Location < ApplicationRecord
     [latitude, longitude]
   end
 
-  def unseen_posts_for(user)
-    #TODO
-  end
-
   def serialized_posts
     JSONAPI::Serializer.serialize(
       posts.active.order('created_at desc'),

@@ -3,19 +3,25 @@ class Api::V1::LocationsController < Api::V1::BaseController
   before_action :set_coordinates, only: [:check, :show]
   before_action :find_location, only: [:create_post]
 
-  # check for posts at users current location
-  # do not create new location if no location with unseen posts
-  # is found
-  # ?position=34.036217,-118.47346
-  def check
-    @location = LocationService.find_current_location(@coordinates)
+  # takes factual id (from Engine) and checks for new posts for user
+  # #TODO rename factual_id to external_id (?maybe)
+  def ping
+    @location = LocationService.find_current_location(params[:external_id])
 
-    if @location.unseen_posts_for(current_user).any?
+    if LocationService.unseen_posts_for_user?(@location, current_user)
       # TODO send notification of posts if posts present at location
       # rpush https://github.com/rpush/rpush
     end
 
     head :ok
+  end
+
+  # receives factual data by client, received by Engine
+  # finds or creates new location by Factual ID
+  def engine_show
+    @location = LocationService.engine_find_or_create_current_location(location_params)
+    current_user.locations << @location
+    render json: JSONAPI::Serializer.serialize(@location), status: :ok
   end
 
   # find or create the users nearest location

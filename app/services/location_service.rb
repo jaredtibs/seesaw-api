@@ -5,6 +5,24 @@ class LocationService
       Location.near(coordinates, 0.0621371).first
     end
 
+   # {
+   #   "name":"Denny's",
+   #   "place_id": "84367f20-a94d-4ca3-899b-a13977791ccc",
+   #   "placerank": 75,
+   #   "distance": 29.279483443232,
+   #   "chain_id": "441411a9-2154-4e52-88ba-b6ac20c83401",
+   #   "confidence": 0.301628212288316
+   # }
+    def engine_find_or_create_current_location(opts={})
+      opts.symbolize_keys!
+      location = Location.find_or_create_by factual_id: opts[:factual_id]
+      location = Location.new unless location.present?
+
+      #LACKING DATA
+      location.name = opts[:name]
+      location.save
+    end
+
     def find_or_create_current_location(coordinates)
       nearest_location = find_current_location(coordinates)
 
@@ -45,6 +63,12 @@ class LocationService
 
     def nearby_locations(coordinates)
       FactualApi.nearby_places(coordinates)
+    end
+
+    def unseen_posts_for_user?(location, user)
+      return false if location.nil?
+      #...
+
     end
 
 
