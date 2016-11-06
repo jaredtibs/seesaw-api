@@ -1,7 +1,7 @@
 class Api::V1::LocationsController < Api::V1::BaseController
   #before_action :authenticate_user!
   before_action :set_coordinates, only: [:check, :show]
-  before_action :find_location, only: [:create_post]
+  before_action :find_location, only: [:create_post, :post]
 
   # takes factual id (from Engine) and checks for new posts for user
   # #TODO rename factual_id to external_id (?maybe)
@@ -41,6 +41,26 @@ class Api::V1::LocationsController < Api::V1::BaseController
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
     end
+  end
+
+  def posts
+=begin
+    begin
+      paginated_render json: @group.feed_activities( start_time: Time.at(@start_time),
+                                                     offset: @offset,
+                                                     limit: @limit,
+                                                     type: params[:type]),
+                       each_serializer: ActivityApiSerializer,
+                       count: @group.activity_count.value,
+                       pagination_token: response.headers,
+                      status: :ok
+
+    rescue => e
+      notify_honeybadger e
+      render json: {error: t('errors.something_went_wrong')}, status: :not_found
+    end
+=end
+
   end
 
   private
