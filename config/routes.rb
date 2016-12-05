@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
         # locations
         get 'locations/ping'    => 'locations#ping'
-        get 'locations/current' => 'locations#show'
+        post 'locations/current' => 'locations#show'
         post 'locations/:location_id/posts' => 'locations#create_post'
 
         # posts

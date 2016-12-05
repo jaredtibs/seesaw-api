@@ -13,14 +13,16 @@ class LocationService
    #   "chain_id": "441411a9-2154-4e52-88ba-b6ac20c83401",
    #   "confidence": 0.301628212288316
    # }
-    def engine_find_or_create_current_location(options={})
+    def find_or_create_current_location(options={})
       options.symbolize_keys!
       location = Location.find_or_create_by place_id: options[:place_id]
       location = Location.new unless location.present?
 
       location.name = options[:name]
       location.save
+      location
     end
+
 =begin
     def find_or_create_current_location(coordinates)
       nearest_location = find_current_location(coordinates)

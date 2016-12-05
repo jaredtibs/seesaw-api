@@ -1,10 +1,9 @@
 class Api::V1::LocationsController < Api::V1::BaseController
   #before_action :authenticate_user!
-  before_action :set_coordinates, only: [:check, :show]
-  before_action :find_location, only: [:create_post, :post]
+  #before_action :set_coordinates, only: [:check, :show]
+  before_action :find_location, only: [:create_post]
 
-  # takes factual id (from Engine) and checks for new posts for user
-  # #TODO rename factual_id to external_id (?maybe)
+  # takes place id (from Engine) and checks for new posts for user
   def ping
     @location = LocationService.find_current_location(params[:external_id])
 
@@ -16,11 +15,9 @@ class Api::V1::LocationsController < Api::V1::BaseController
     head :ok
   end
 
-  # receives factual data by client, received by Engine
-  # finds or creates new location by Factual ID
   def show
-    @location = LocationService.find_or_create_current_location(location_params)
-    current_user.locations << @location
+    @location = LocationService.find_or_create_current_location(location_params.to_hash)
+    #current_user.locations << @location
     render json: JSONAPI::Serializer.serialize(@location), status: :ok
   end
 
@@ -57,10 +54,6 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   private
 
-  def set_coordinates
-    @coordinates = params[:position].split(",")
-  end
-
   def find_location
     @location = Location.find(params[:location_id])
   rescue
@@ -68,8 +61,10 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def location_params
-    params.permit(
-      :place_id
+    params.permit(:location)
+    params.require(:location).permit(
+      :place_id,
+      :name
     )
   end
 
