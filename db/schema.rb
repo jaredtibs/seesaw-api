@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829023558) do
+ActiveRecord::Schema.define(version: 20161205000356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20160829023558) do
     t.string   "image"
     t.string   "region"
     t.string   "address"
-    t.string   "factual_id"
+    t.string   "place_id"
     t.string   "categories",  default: [],              array: true
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", unique: true, using: :btree
   end

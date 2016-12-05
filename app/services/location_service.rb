@@ -13,16 +13,15 @@ class LocationService
    #   "chain_id": "441411a9-2154-4e52-88ba-b6ac20c83401",
    #   "confidence": 0.301628212288316
    # }
-    def engine_find_or_create_current_location(opts={})
-      opts.symbolize_keys!
-      location = Location.find_or_create_by factual_id: opts[:factual_id]
+    def engine_find_or_create_current_location(options={})
+      options.symbolize_keys!
+      location = Location.find_or_create_by place_id: options[:place_id]
       location = Location.new unless location.present?
 
-      #LACKING DATA
-      location.name = opts[:name]
+      location.name = options[:name]
       location.save
     end
-
+=begin
     def find_or_create_current_location(coordinates)
       nearest_location = find_current_location(coordinates)
 
@@ -38,12 +37,13 @@ class LocationService
         nearest_location
       end
     end
+=end
 
     def create_location_from_factual(factual_data)
       data = factual_data.symbolize_keys
 
       Location.create(
-        factual_id: data[:factual_id],
+        place_id: data[:place_id],
         latitude: data[:latitude],
         longitude: data[:longitude],
         postal_code: data[:postcode],

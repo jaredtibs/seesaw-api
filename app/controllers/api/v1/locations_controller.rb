@@ -18,16 +18,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   # receives factual data by client, received by Engine
   # finds or creates new location by Factual ID
-  def engine_show
-    @location = LocationService.engine_find_or_create_current_location(location_params)
-    current_user.locations << @location
-    render json: JSONAPI::Serializer.serialize(@location), status: :ok
-  end
-
-  # find or create the users nearest location
-  # serialize location and its posts
   def show
-    @location = LocationService.find_or_create_current_location(@coordinates)
+    @location = LocationService.find_or_create_current_location(location_params)
     current_user.locations << @location
     render json: JSONAPI::Serializer.serialize(@location), status: :ok
   end
@@ -73,6 +65,12 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @location = Location.find(params[:location_id])
   rescue
     render json: {error: "Location not found"}, status: :not_found
+  end
+
+  def location_params
+    params.permit(
+      :place_id
+    )
   end
 
   def post_params
