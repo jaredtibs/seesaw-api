@@ -1,10 +1,12 @@
 class LocationService
   class << self
 
+    # unused
     def find_current_location(coordinates)
       Location.near(coordinates, 0.0621371).first
     end
 
+   # example response
    # {
    #   "name":"Denny's",
    #   "place_id": "84367f20-a94d-4ca3-899b-a13977791ccc",
@@ -23,24 +25,7 @@ class LocationService
       location
     end
 
-=begin
-    def find_or_create_current_location(coordinates)
-      nearest_location = find_current_location(coordinates)
-
-      if nearest_location.blank?
-        factual_data = FactualApi.nearby_places(coordinates)
-        if factual_data
-          create_location_from_factual(factual_data.first)
-        else
-          create_raw_location(coordinates)
-          # you will need to reverse geocode in this instance, possible flag it and then adjust revere geocode callback to only run if flagged
-        end
-      else
-        nearest_location
-      end
-    end
-=end
-
+    # unused
     def create_location_from_factual(factual_data)
       data = factual_data.symbolize_keys
 

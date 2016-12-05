@@ -25,7 +25,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @post = @location.posts.build(post_params)
 
     if @post.save
-      current_user.posts << @post
+      #current_user.posts << @post
       render json: JSONAPI::Serializer.serialize(@post), status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
