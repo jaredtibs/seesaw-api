@@ -1,6 +1,6 @@
 class Api::V1::LocationsController < Api::V1::BaseController
   #before_action :authenticate_user!
-  before_action :find_location, only: [:posts, :create_post]
+  before_action :find_location, only: [:create_post]
 
   # takes place id (from Engine) and checks for new posts for user
   def ping
@@ -23,6 +23,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def posts
+    @location = Location.find(params[:id])
     render json: JSONAPI::Serializer.serialize(
       @location.posts,
       is_collection: true),
@@ -40,8 +41,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
     end
   end
 
-  def posts
 =begin
+  def posts
     begin
       paginated_render json: @group.feed_activities( start_time: Time.at(@start_time),
                                                      offset: @offset,
@@ -56,16 +57,17 @@ class Api::V1::LocationsController < Api::V1::BaseController
       notify_honeybadger e
       render json: {error: t('errors.something_went_wrong')}, status: :not_found
     end
-=end
 
   end
+=end
 
   private
 
   def find_location
-    @location = Location.find(params[:location_id])
+    @location = Location.find(params[:id])
   rescue
     render json: {error: "Location not found"}, status: :not_found
+    return
   end
 
   def location_params
