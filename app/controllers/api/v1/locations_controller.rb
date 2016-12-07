@@ -1,6 +1,6 @@
 class Api::V1::LocationsController < Api::V1::BaseController
   #before_action :authenticate_user!
-  before_action :find_location, only: [:create_post]
+  before_action :find_location, only: [:create_post, :posts]
 
   # takes place id (from Engine) and checks for new posts for user
   def ping
@@ -23,7 +23,6 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def posts
-    @location = Location.find(params[:id])
     render json: JSONAPI::Serializer.serialize(
       @location.posts,
       is_collection: true),
