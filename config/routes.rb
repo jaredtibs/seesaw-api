@@ -23,8 +23,9 @@ Rails.application.routes.draw do
         put  'reset-password'  => 'users#update_password'
 
         # locations
-        get 'locations/ping'    => 'locations#ping'
-        post 'locations/current' => 'locations#show'
+        get 'locations/ping'      => 'locations#ping'
+        get 'locations/:id/posts' => 'locations#posts'
+        post 'locations/current'  => 'locations#show'
         post 'locations/:location_id/posts' => 'locations#create_post'
 
         # posts

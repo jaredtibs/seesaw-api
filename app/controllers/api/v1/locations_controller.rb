@@ -1,7 +1,6 @@
 class Api::V1::LocationsController < Api::V1::BaseController
   #before_action :authenticate_user!
-  #before_action :set_coordinates, only: [:check, :show]
-  before_action :find_location, only: [:create_post]
+  before_action :find_location, only: [:posts, :create_post]
 
   # takes place id (from Engine) and checks for new posts for user
   def ping
@@ -15,10 +14,19 @@ class Api::V1::LocationsController < Api::V1::BaseController
     head :ok
   end
 
+  #TODO uncomment authentication before_action and user associations
+
   def show
     @location = LocationService.find_or_create_current_location(location_params.to_hash)
     #current_user.locations << @location
     render json: JSONAPI::Serializer.serialize(@location), status: :ok
+  end
+
+  def posts
+    render json: JSONAPI::Serializer.serialize(
+      @location.posts,
+      is_collection: true),
+      status: :ok
   end
 
   def create_post
