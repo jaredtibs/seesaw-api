@@ -24,7 +24,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def posts
     render json: JSONAPI::Serializer.serialize(
-      @location.posts,
+      @location.posts.order('created_at desc'),
       is_collection: true),
       status: :ok
   end
