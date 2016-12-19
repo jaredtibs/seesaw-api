@@ -70,10 +70,11 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def location_params
-    params.permit(:location)
-    params.require(:location).permit(
+    params.permit(
+      :location,
       :place_id,
-      :name
+      :name,
+      :category_ids => []
     )
   end
 

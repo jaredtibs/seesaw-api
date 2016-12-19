@@ -21,6 +21,7 @@ module Dropnote
     config.api_only = true
 
     config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/app/services)
     config.active_record.raise_in_transactional_callbacks = true
   end

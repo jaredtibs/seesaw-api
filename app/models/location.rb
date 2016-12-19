@@ -10,7 +10,7 @@ class Location < ApplicationRecord
   after_validation :geocode
   after_validation :reverse_geocode
 
-  after_commit :fetch_location_image, on: :create
+  after_commit :fetch_location_data, on: :create
 
   def coordinates
     [latitude, longitude]
@@ -24,7 +24,7 @@ class Location < ApplicationRecord
     )
   end
 
-  def fetch_image
-    # google api?
+  def fetch_location_data
+    FetchLocationData.perform_async place_id
   end
 end
