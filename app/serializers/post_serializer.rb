@@ -1,12 +1,16 @@
 class PostSerializer
   include JSONAPI::Serializer
+  include ActionView::Helpers::DateHelper
 
   attributes(
-    :created_at,
     :body,
     :user,
     :upvote_count
   )
+
+  attribute :created_at do
+    time_ago_in_words(object.created_at)
+  end
 
   def type
     object.class.name
