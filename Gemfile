@@ -17,6 +17,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'rails', '~> 5.0.0'
 gem 'redis', '~> 3.0'
 gem 'redis-rails'
+gem 'rmagick'
 gem 'sidekiq'
 gem 'sidetiq'
 
