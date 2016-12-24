@@ -11,6 +11,7 @@ gem "fog-aws"
 gem 'geocoder'
 gem 'jwt'
 gem 'jsonapi-serializers'
+gem 'mini_magick'
 gem 'pg'
 gem 'puma'
 gem 'rack-cors', :require => 'rack/cors'
