@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
 
   def index
-    render json: {success: true}
+    render json: {api_active: true}
   end
 end
