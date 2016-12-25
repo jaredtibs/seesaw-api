@@ -23,8 +23,10 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def posts
+    @posts = @location.posts.order(sort_column + ' ' + 'desc')
+
     render json: JSONAPI::Serializer.serialize(
-      @location.posts.order('created_at desc'),
+      @posts,
       is_collection: true),
       status: :ok
   end
@@ -67,6 +69,14 @@ class Api::V1::LocationsController < Api::V1::BaseController
   rescue
     render json: {error: "Location not found"}, status: :not_found
     return
+  end
+
+  def sort_column
+    case params[:sort]
+    when 'recent' then 'created_at'
+    when 'popular' then 'upvote_count'
+    else 'created_at'
+    end
   end
 
   def location_params
