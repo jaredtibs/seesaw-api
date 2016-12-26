@@ -23,7 +23,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def posts
-    @posts = @location.posts.order(sort_column + ' ' + 'desc')
+    @posts = @location.posts.order(sort_column + ' ' + 'desc, created_at desc')
 
     render json: JSONAPI::Serializer.serialize(
       @posts,
