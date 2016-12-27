@@ -1,9 +1,12 @@
 class Api::V1::PostsController < Api::V1::BaseController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :find_post
 
+  #TODO remove hardcoded votes for authenticated user votes
+  # and uncomment authenticate call above
   def upvote
-    if current_user.upvote(@post)
+    #if current_user.upvote(@post)
+    if @post.increment!(:upvote_count)
       render json: {success: "upvoted"}, status: :ok
     else
       render json: {errors: "unable to upvote post"}, status: :unprocessable_entity
@@ -11,7 +14,8 @@ class Api::V1::PostsController < Api::V1::BaseController
   end
 
   def downvote
-    if current_user.downvote(@post)
+    #if current_user.downvote(@post)
+    if @post.decrement!(:upvote_count)
       render json: {success: "downvoted"}, status: :ok
     else
       render json: {errors: "unable to downvote post"}, status: :unprocessable_entity
