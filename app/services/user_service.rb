@@ -2,7 +2,7 @@ class UserService
   class << self
 
     def generate_token_for(user)
-      ::JsonWebToken.encode({
+      JsonWebToken.encode({
         user_id: user.id,
         email: user.email
       })
