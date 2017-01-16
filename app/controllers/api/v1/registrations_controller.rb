@@ -7,8 +7,7 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
       sign_in user
       render json: { token: token }, status: :created
     else
-      render json: { errors: user.errors.full_messages },
-        status: :unprocessable_entity
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

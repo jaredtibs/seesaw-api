@@ -14,7 +14,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def show
-    render json: {'logged_in' => true}
+    render json: JSONAPI::Serializer.serialize(current_user), status: :ok
   end
 
 end
