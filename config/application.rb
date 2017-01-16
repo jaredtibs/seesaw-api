@@ -20,6 +20,8 @@ module Dropnote
   class Application < Rails::Application
     config.api_only = true
 
+    config.paths.add "lib", glob: "**/*.{rb,yml}", eager_load: true
+
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/app/services)
