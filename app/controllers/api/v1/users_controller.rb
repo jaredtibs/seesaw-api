@@ -1,5 +1,12 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  before_action :authenticate_user!, only: [:show, :index, :update, :update_email]
+  before_action :authenticate_user!, only: [
+    :show,
+    :index,
+    :update,
+    :update_email,
+    :update_avatar
+  ]
+
   before_action :find_user_by_name, only: [:show]
 
   def show
@@ -75,6 +82,21 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def update_avatar
+    unless avatar_params[:file].is_a?(ActionDispatch::Http::UploadedFile)
+      render json: {errors: 'not a file'}, status: :unprocessable_entity
+      return
+    end
+
+    #current_user.avatar_offset = { x_coord: avatar_params[:avatar_x], y_coord: avatar_params[:avatar_y] }
+    current_user.avatar = avatar_params[:file]
+    if current_user.save
+      render json: JSONAPI::Serializer.serialize(current_user), status: :ok
+    else
+      render json: {errors: "error uploading avatar"}, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def find_user_by_name
@@ -105,6 +127,11 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update_email_params
     params.require(:password, :email)
     params.permit(:password, :email)
+  end
+
+  def avatar_params
+    params.require(:file)
+    params.permit(:file, :avatar_x, :avatar_y)
   end
 
 end
