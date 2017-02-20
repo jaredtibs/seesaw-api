@@ -1,5 +1,5 @@
 class Api::V1::LocationsController < Api::V1::BaseController
-  #before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create_post]
   before_action :find_location, only: [:create_post, :posts]
 
   # takes place id (from Engine) and checks for new posts for user
@@ -35,7 +35,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @post = @location.posts.build(post_params)
 
     if @post.save
-      #current_user.posts << @post
+      current_user.posts << @post
       render json: JSONAPI::Serializer.serialize(@post), status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
