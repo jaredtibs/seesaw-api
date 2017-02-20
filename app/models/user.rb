@@ -14,6 +14,12 @@ class User < ApplicationRecord
 
   acts_as_voter
 
+  def image_data=(data)
+    # decode data and create stream on them
+    io = CarrierStringIO.new(Base64.decode64(data))
+    self.avatar = io
+  end
+
   def upvote(post)
     post.vote_by voter: self
     Post.increment_counter(:upvote_count, post.id)
@@ -34,4 +40,16 @@ class User < ApplicationRecord
     end
   end
 
+end
+
+class CarrierStringIO < StringIO
+  def original_filename
+    # the real name does not matter
+    "avatar.jpeg"
+  end
+
+  def content_type
+    # this should reflect real content type, but for this example it's ok
+    "image/jpeg"
+  end
 end
