@@ -3,7 +3,8 @@ class UserSerializer
 
   attributes(
     :email,
-    :username
+    :username,
+    :avatar
   )
 
   def type

@@ -93,7 +93,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if current_user.save
       render json: JSONAPI::Serializer.serialize(current_user), status: :ok
     else
-      render json: {errors: "error uploading avatar"}, status: :unprocessable_entity
+      render json: {errors: "error updating avatar"}, status: :unprocessable_entity
     end
   end
 
