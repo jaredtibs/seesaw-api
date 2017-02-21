@@ -4,10 +4,9 @@ ruby "2.3.1"
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_votable', '~> 0.10.0'
-gem 'carrierwave'
+gem 'carrierwave-aws'
 gem 'devise'
 gem 'faraday'
-gem "fog-aws"
 gem 'geocoder'
 gem 'jwt'
 gem 'jsonapi-serializers'

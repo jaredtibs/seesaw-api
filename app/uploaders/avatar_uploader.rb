@@ -6,10 +6,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :fog
+  storage :aws
 
   def store_dir
-    "avatar/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "users/avatars/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

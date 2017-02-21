@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :recoverable
 
-  #mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   has_many :user_locations
   has_many :locations, through: :user_locations
@@ -13,6 +13,12 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
 
   acts_as_voter
+
+  def image_data=(data)
+    # decode data and create stream on them
+    io = CarrierStringIO.new(Base64.decode64(data))
+    self.avatar = io
+  end
 
   def upvote(post)
     post.vote_by voter: self
@@ -34,4 +40,16 @@ class User < ApplicationRecord
     end
   end
 
+end
+
+class CarrierStringIO < StringIO
+  def original_filename
+    # the real name does not matter
+    "avatar.jpeg"
+  end
+
+  def content_type
+    # this should reflect real content type, but for this example it's ok
+    "image/jpeg"
+  end
 end
