@@ -2,7 +2,6 @@ class Api::V1::SessionsController < Api::V1::BaseController
   before_action :authenticate_user!, except: :create
 
   def create
-    byebug
     @current_user = User.find_by email: params[:username]
 
     if @current_user and @current_user.valid_password?(params[:password])
