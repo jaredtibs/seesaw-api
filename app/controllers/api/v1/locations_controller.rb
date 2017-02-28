@@ -23,7 +23,10 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def posts
     @posts = @location.posts.order(sort_column + ' ' + 'desc, created_at desc')
-    render json: @posts, meta: {count: @posts.count}, each_serializer: PostSerializer, status: :ok
+    render json: @posts,
+      meta: {count: @posts.count},
+      each_serializer: PostSerializer,
+      status: :ok
   end
 
   def create_post
