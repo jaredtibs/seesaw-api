@@ -8,6 +8,11 @@ class Post < ApplicationRecord
   scope :active, -> { where(hidden: false) }
 
   def serialized_user
-    JSONAPI::Serializer.serialize(user)
+    if user
+      ActiveModelSerializers::SerializableResource.new(user, serializer: UserSerializer)
+    else
+      {}
+    end
   end
+
 end

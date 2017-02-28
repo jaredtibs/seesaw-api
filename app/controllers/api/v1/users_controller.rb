@@ -11,7 +11,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def show
     if @user
-      render json: JSONAPI::Serializer.serialize(@user), status: :ok
+      render json: @user, serializer: UserSerializer, status: :ok
     else
       not_found
     end
@@ -19,10 +19,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def index
     @users = User.order('created_at desc')
-    render json: JSONAPI::Serializer.serialize(
-      @users,
+    render json: @users,
       meta: { count: @users.count },
-      is_collection: true),
+      each_serializer: UserSerializer,
       status: :ok
   end
 
@@ -85,7 +84,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update_avatar
     current_user.image_data = avatar_params[:file]
     if current_user.save
-      render json: JSONAPI::Serializer.serialize(current_user), status: :ok
+      render json: current_user, serializer: UserSerializer, status: :ok
     else
       render json: {errors: "error updating avatar"}, status: :unprocessable_entity
     end

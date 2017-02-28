@@ -17,11 +17,10 @@ class Location < ApplicationRecord
   end
 
   def serialized_posts
-    JSONAPI::Serializer.serialize(
+    ActiveModelSerializers::SerializableResource.new(
       posts.active.order('created_at desc'),
-      meta: { count: posts.count },
-      is_collection: true
-    )
+      meta: {total_count: posts.active.count},
+      each_serializer: PostSerializer)
   end
 
   def fetch_location_data
