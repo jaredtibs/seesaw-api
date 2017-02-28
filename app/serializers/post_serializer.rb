@@ -1,16 +1,13 @@
-class PostSerializer
-  include JSONAPI::Serializer
+class PostSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
   attributes(
     :body,
     :user,
-    :upvote_count
+    :upvote_count,
+    :permissions,
+    :created_at
   )
-
-  attribute :created_at do
-    time_ago_in_words(object.created_at)
-  end
 
   def type
     object.class.name
@@ -18,6 +15,19 @@ class PostSerializer
 
   def user
     object.serialized_user
+  end
+
+  def created_at
+    time_ago_in_words(object.created_at)
+  end
+
+  def permissions
+    perms = {
+      voted_for: false,
+      editable: false,
+      hideable: false,
+      reportable: true
+    }
   end
 
   def self_link

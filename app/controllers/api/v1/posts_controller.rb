@@ -1,22 +1,18 @@
 class Api::V1::PostsController < Api::V1::BaseController
-  #before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :find_post
 
-  #TODO remove hardcoded votes for authenticated user votes
-  # and uncomment authenticate call above
   def upvote
-    #if current_user.upvote(@post)
-    if @post.increment!(:upvote_count)
-      render json: JSONAPI::Serializer.serialize(@post), status: :ok
+    if current_user.upvote(@post)
+      render json: JSONAPI::Serializer.serialize(@post, context: current_user), status: :ok
     else
       render json: {errors: "unable to upvote post"}, status: :unprocessable_entity
     end
   end
 
   def downvote
-    #if current_user.downvote(@post)
-    if @post.decrement!(:upvote_count)
-      render json: JSONAPI::Serializer.serialize(@post), status: :ok
+    if current_user.downvote(@post)
+      render json: JSONAPI::Serializer.serialize(@post, context: current_user), status: :ok
     else
       render json: {errors: "unable to downvote post"}, status: :unprocessable_entity
     end
@@ -24,7 +20,7 @@ class Api::V1::PostsController < Api::V1::BaseController
 
   def unvote
     if current_user.unvote(@post)
-      render json: JSONAPI::Serializer.serialize(@post), status: :ok
+      render json: JSONAPI::Serializer.serialize(@post, context: current_user), status: :ok
     else
       render json: {errors: "unable to delete vote"}, status: :unprocessable_entity
     end

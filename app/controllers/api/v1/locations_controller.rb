@@ -15,20 +15,15 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   #TODO uncomment authentication before_action and user associations
-
   def show
     @location = LocationService.find_or_create_current_location(location_params.to_hash)
     #current_user.locations << @location
-    render json: JSONAPI::Serializer.serialize(@location), status: :ok
+    render json: @location, serializer: LocationSerializer, status: :ok
   end
 
   def posts
     @posts = @location.posts.order(sort_column + ' ' + 'desc, created_at desc')
-
-    render json: JSONAPI::Serializer.serialize(
-      @posts,
-      is_collection: true),
-      status: :ok
+    render json: @posts, each_serializer: PostSerializer, status: :ok
   end
 
   def create_post
@@ -36,7 +31,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
     if @post.save
       #current_user.posts << @post
-      render json: JSONAPI::Serializer.serialize(@post), status: :created
+      #render json: JSONAPI::Serializer.serialize(@post), status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
     end
