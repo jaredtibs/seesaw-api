@@ -23,7 +23,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def posts
     @posts = @location.posts.order(sort_column + ' ' + 'desc, created_at desc')
-    render json: @posts, each_serializer: PostSerializer, status: :ok
+    render json: @posts, meta: {count: @posts.count}, each_serializer: PostSerializer, status: :ok
   end
 
   def create_post
@@ -31,7 +31,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
     if @post.save
       #current_user.posts << @post
-      #render json: JSONAPI::Serializer.serialize(@post), status: :created
+      render json: @post, serializer: PostSerializer, status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity
     end
