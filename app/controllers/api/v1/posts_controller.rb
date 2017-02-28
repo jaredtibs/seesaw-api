@@ -4,6 +4,7 @@ class Api::V1::PostsController < Api::V1::BaseController
 
   def upvote
     if current_user.upvote(@post)
+      @post.reload
       render json: @post, serializer: PostSerializer, status: :ok
     else
       render json: {errors: "unable to upvote post"}, status: :unprocessable_entity
@@ -12,6 +13,7 @@ class Api::V1::PostsController < Api::V1::BaseController
 
   def downvote
     if current_user.downvote(@post)
+      @post.reload
       render json: @post, serializer: PostSerializer, status: :ok
     else
       render json: {errors: "unable to downvote post"}, status: :unprocessable_entity
@@ -20,6 +22,7 @@ class Api::V1::PostsController < Api::V1::BaseController
 
   def unvote
     if current_user.unvote(@post)
+      @post.reload
       render json: @post, serializer: PostSerializer, status: :ok
     else
       render json: {errors: "unable to delete vote"}, status: :unprocessable_entity
