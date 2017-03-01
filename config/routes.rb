@@ -33,7 +33,7 @@ Rails.application.routes.draw do
         post 'posts/:id/report'   => 'posts#report'
         post 'posts/:id/upvote'   => 'posts#upvote'
         post 'posts/:id/downvote' => 'posts#downvote'
-        delete 'posts/:id/vote'   => 'posts#unvote'
+        post 'posts/:id/unvote'   => 'posts#unvote'
         get 'posts/:id/upvotes'   => 'posts#upvotes'
         get 'posts/:id/downvotes' => 'posts#downvotes'
       end
