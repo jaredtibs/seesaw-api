@@ -1,5 +1,5 @@
 class Api::V1::LocationsController < Api::V1::BaseController
-  #before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :find_location, only: [:create_post, :posts]
 
   # takes place id (from Engine) and checks for new posts for user
@@ -14,10 +14,9 @@ class Api::V1::LocationsController < Api::V1::BaseController
     head :ok
   end
 
-  #TODO uncomment authentication before_action and user associations
   def show
     @location = LocationService.find_or_create_current_location(location_params.to_hash)
-    #current_user.locations << @location
+    UserLocation.find_or_create_by(user_id: current_user.id, location_id: @location.id)
     render json: @location, serializer: LocationSerializer, status: :ok
   end
 
@@ -26,6 +25,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
     render json: @posts,
       meta: {count: @posts.count},
       each_serializer: PostSerializer,
+      scope: current_user,
+      scope_name: :current_user,
       status: :ok
   end
 
@@ -33,7 +34,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
     @post = @location.posts.build(post_params)
 
     if @post.save
-      #current_user.posts << @post
+      current_user.posts << @post
       render json: @post, serializer: PostSerializer, status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity

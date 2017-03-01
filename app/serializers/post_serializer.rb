@@ -28,6 +28,23 @@ class PostSerializer < ActiveModel::Serializer
       hideable: false,
       reportable: true
     }
+
+    user = current_user
+
+    if user
+
+      if object.user_id == user.id
+        perms[:editable] = true
+        perms[:hideable] = true
+      end
+
+      if user.voted_up_on? object
+        perms[:voted_for] = true
+      end
+
+    end
+
+    perms
   end
 
   def self_link

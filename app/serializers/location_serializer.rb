@@ -24,10 +24,10 @@ class LocationSerializer < ActiveModel::Serializer
   #TODO might have to separate this out into its own endpoint so you can apply
   # filters and paginate, just pulling through the associaton in the serializer is not going to cut it
   # could possibly add a filter param
-  def relationships
-    {
-      "posts": object.serialized_posts
-    }
-  end
+  #def relationships
+  #  {
+  #    "posts": object.serialized_posts
+  #  }
+  #end
 
 end

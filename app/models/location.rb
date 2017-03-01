@@ -16,11 +16,13 @@ class Location < ApplicationRecord
     [latitude, longitude]
   end
 
+  # deprecated
   def serialized_posts
     ActiveModelSerializers::SerializableResource.new(
       posts.active.order('created_at desc'),
       meta: {total_count: posts.active.count},
-      each_serializer: PostSerializer)
+      each_serializer: PostSerializer
+    )
   end
 
   def fetch_location_data
