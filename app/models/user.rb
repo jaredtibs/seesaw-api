@@ -11,8 +11,13 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false }, on: [:create, :update]
 
   validates_uniqueness_of :email
+  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
   acts_as_voter
+
+  def self.find_by_email_or_username(login)
+    where("lower(username) = :value OR lower(email) = :value", value: login.downcase).first
+  end
 
   def image_data=(data)
     # decode data and create stream on them
