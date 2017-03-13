@@ -12,6 +12,14 @@ class Location < ApplicationRecord
 
   after_commit :fetch_location_data, on: :create
 
+  def posts_meta
+    {
+      post_count: posts.count,
+      vote_count: 0,
+      photo_count: 0
+    }
+  end
+
   def coordinates
     [latitude, longitude]
   end
