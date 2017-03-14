@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205000356) do
+ActiveRecord::Schema.define(version: 20170314052814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20161205000356) do
     t.datetime "updated_at"
     t.integer  "reported_by",  default: [],    array: true
     t.integer  "upvote_count", default: 0
+    t.integer  "visibility",   default: 1
   end
 
   create_table "user_locations", force: :cascade do |t|

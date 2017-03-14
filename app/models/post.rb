@@ -7,6 +7,12 @@ class Post < ApplicationRecord
 
   scope :active, -> { where(hidden: false) }
 
+  enum visibility: {
+    everyone: 1,
+    direct: 2,
+    anonymous: 3
+  }
+
   def serialized_user
     if user
       ActiveModelSerializers::SerializableResource.new(user, serializer: UserSerializer)
