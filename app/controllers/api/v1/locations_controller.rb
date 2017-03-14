@@ -83,6 +83,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
       :location,
       :place_id,
       :name,
+      :visibility,
       :category_ids => []
     )
   end
