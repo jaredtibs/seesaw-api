@@ -6,6 +6,7 @@ class PostSerializer < ActiveModel::Serializer
     :user,
     :upvote_count,
     :permissions,
+    :visibility,
     :created_at
   )
 
@@ -14,6 +15,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def user
+    #anonymous? ? object.serialized_user(:anonymous) : object.serialized_user
     object.serialized_user
   end
 
