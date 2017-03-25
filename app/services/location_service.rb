@@ -21,6 +21,8 @@ class LocationService
       location = Location.new unless location.present?
 
       location.name = options[:name]
+      location.latitude  = options[:latitude]
+      location.longitude = options[:longitude]
       location.save
       location
     end

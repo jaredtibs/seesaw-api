@@ -7,10 +7,10 @@ class Location < ApplicationRecord
   geocoded_by :address, :latitude  => :latitude, :longitude => :longitude
   reverse_geocoded_by :latitude, :longitude
 
-  after_validation :geocode
-  after_validation :reverse_geocode
+  #after_validation :geocode
+  #after_validation :reverse_geocode
 
-  after_commit :fetch_location_data, on: :create
+  #after_commit :fetch_location_data, on: :create
 
   def coordinates
     [latitude, longitude]
@@ -26,6 +26,6 @@ class Location < ApplicationRecord
   end
 
   def fetch_location_data
-    FetchLocationData.perform_async place_id
+    FetchAdditionalLocationData.perform_async place_id
   end
 end

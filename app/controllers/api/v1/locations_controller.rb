@@ -80,6 +80,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def location_params
     params.permit(
+      :latitude,
+      :longitude,
       :location,
       :place_id,
       :name,
