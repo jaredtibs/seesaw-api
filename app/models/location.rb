@@ -10,7 +10,7 @@ class Location < ApplicationRecord
   #after_validation :geocode
   #after_validation :reverse_geocode
 
-  #after_commit :fetch_location_data, on: :create
+  after_commit :fetch_location_data, on: :create
 
   def coordinates
     [latitude, longitude]
