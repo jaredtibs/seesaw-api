@@ -26,6 +26,6 @@ class Location < ApplicationRecord
   end
 
   def fetch_location_data
-    FetchAdditionalLocationData.perform_async place_id
+    FetchAdditionalLocationData.perform_async self.id
   end
 end
