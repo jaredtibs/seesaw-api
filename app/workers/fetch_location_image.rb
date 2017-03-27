@@ -7,6 +7,9 @@ class FetchLocationImage
 
     if location
       # fetch image
+      # perform place search using lat and long
+      # then request photo using photoreference
     end
 
   end
+end
