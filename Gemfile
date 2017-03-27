@@ -16,9 +16,11 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'rails', '~> 5.0.0'
 gem 'redis', '~> 3.0'
 gem 'redis-rails'
+gem 'redis-namespace'
 gem 'rmagick'
 gem 'sidekiq'
 gem 'sidetiq'
+gem 'sinatra', :require => nil
 
 group :development, :test do
   gem 'awesome_print'
