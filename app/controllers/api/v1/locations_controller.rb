@@ -35,6 +35,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
     if @post.save
       current_user.posts << @post
+      Location.increment_counter(:cached_post_count, @location.id)
       render json: @post, serializer: PostSerializer, status: :created
     else
       render json: {errors: @post.errors.full_messages}, status: :unprocessable_entity

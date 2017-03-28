@@ -8,26 +8,34 @@ class LocationSerializer < ActiveModel::Serializer
     :city,
     :region,
     :postal_code,
-    :country
+    :country,
+    :post_count,
+    :vote_count,
+    :photo_count
   )
-
-  has_many :posts
 
   def self_link
     nil
   end
 
-  def type
-    object.class.name
+  def location
+    @location ||= object
   end
 
-  #TODO might have to separate this out into its own endpoint so you can apply
-  # filters and paginate, just pulling through the associaton in the serializer is not going to cut it
-  # could possibly add a filter param
-  #def relationships
-  #  {
-  #    "posts": object.serialized_posts
-  #  }
-  #end
+  def type
+    location.class.name
+  end
+
+  def post_count
+    location.cached_post_count
+  end
+
+  def photo_count
+    location.cached_photo_count
+  end
+
+  def vote_count
+    location.cached_vote_count
+  end
 
 end
