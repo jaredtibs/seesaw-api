@@ -28,11 +28,13 @@ class User < ApplicationRecord
   def upvote(post)
     post.vote_by voter: self
     Post.increment_counter(:upvote_count, post.id)
+    Location.increment_counter(:cached_votes_count, post.location.id)
   end
 
   def unvote(post)
     post.unvote_by self
     Post.decrement_counter(:upvote_count, post.id)
+    Location.decrement_counter(:cached_votes_count, post.location.id)
   end
 
   def report(post)
