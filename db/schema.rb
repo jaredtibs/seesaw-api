@@ -23,16 +23,16 @@ ActiveRecord::Schema.define(version: 20170328050133) do
     t.string   "description"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "image"
     t.string   "region"
     t.string   "address"
     t.string   "place_id"
-    t.string   "categories",          default: [],              array: true
-    t.integer  "cached_votes_count",  default: 0
-    t.integer  "cached_posts_count",  default: 0
-    t.integer  "cached_photos_count", default: 0
+    t.string   "categories",         default: [],              array: true
+    t.integer  "cached_vote_count",  default: 0
+    t.integer  "cached_post_count",  default: 0
+    t.integer  "cached_photo_count", default: 0
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", unique: true, using: :btree
   end
 

@@ -8,7 +8,10 @@ class LocationSerializer < ActiveModel::Serializer
     :city,
     :region,
     :postal_code,
-    :country
+    :country,
+    :post_count,
+    :vote_count,
+    :photo_count
   )
 
   has_many :posts
@@ -17,8 +20,16 @@ class LocationSerializer < ActiveModel::Serializer
     nil
   end
 
+  def location
+    @location ||= object
+  end
+
   def type
-    object.class.name
+    location.class.name
+  end
+
+  def post_count
+    location.cached_post_count
   end
 
   #TODO might have to separate this out into its own endpoint so you can apply
