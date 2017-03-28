@@ -14,8 +14,6 @@ class LocationSerializer < ActiveModel::Serializer
     :photo_count
   )
 
-  has_many :posts
-
   def self_link
     nil
   end
@@ -32,13 +30,12 @@ class LocationSerializer < ActiveModel::Serializer
     location.cached_post_count
   end
 
-  #TODO might have to separate this out into its own endpoint so you can apply
-  # filters and paginate, just pulling through the associaton in the serializer is not going to cut it
-  # could possibly add a filter param
-  #def relationships
-  #  {
-  #    "posts": object.serialized_posts
-  #  }
-  #end
+  def photo_count
+    location.cached_photo_count
+  end
+
+  def vote_count
+    location.cached_vote_count
+  end
 
 end
