@@ -93,7 +93,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
 
   def post_params
     params.permit(
-      :body
+      :body,
+      :media
     )
   end
 
