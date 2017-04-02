@@ -33,6 +33,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
   def create_post
     @post = @location.posts.build(post_params)
 
+    @post.image_data = post_params[:media] if post_params[:media].present?
+
     if @post.save
       current_user.posts << @post
       Location.increment_counter(:cached_post_count, @location.id)

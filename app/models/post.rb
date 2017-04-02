@@ -17,6 +17,12 @@ class Post < ApplicationRecord
     anonymous: 3
   }
 
+  def image_data=(data)
+    # decode data and create stream on them
+    io = CarrierStringIO.new(Base64.decode64(data))
+    self.media = io
+  end
+
   def serialized_user
     if user
       ActiveModelSerializers::SerializableResource.new(user, serializer: UserSerializer)
