@@ -85,6 +85,9 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
+    climate_control (0.1.0)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
@@ -130,6 +133,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    mimemagic (0.3.2)
     mini_magick (4.6.0)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
@@ -139,6 +143,12 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     orm_adapter (0.5.0)
+    paperclip (5.0.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      cocaine (~> 0.5.5)
+      mime-types
+      mimemagic (~> 0.3.0)
     pg (0.18.4)
     pkg-config (1.1.7)
     puma (3.6.0)
@@ -267,6 +277,7 @@ DEPENDENCIES
   jwt
   listen (~> 3.0.5)
   mini_magick
+  paperclip (~> 5.0.0)
   pg
   puma
   rack-cors

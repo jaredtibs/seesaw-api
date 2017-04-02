@@ -7,6 +7,7 @@ class PostSerializer < ActiveModel::Serializer
     :upvote_count,
     :permissions,
     :visibility,
+    :media,
     :created_at
   )
 
@@ -28,7 +29,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def media
-    post.serialized_media
+    post.media.url
   end
 
   def permissions

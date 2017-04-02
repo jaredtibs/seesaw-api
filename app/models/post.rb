@@ -23,12 +23,4 @@ class Post < ApplicationRecord
     end
   end
 
-  def serialized_media
-    if media
-      ActiveModelSerializers::SerializableResource.new(media)
-    else
-      {}
-    end
-  end
-
 end
