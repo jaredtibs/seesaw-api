@@ -29,7 +29,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def media
-    post.media.url
+    nil
   end
 
   def permissions

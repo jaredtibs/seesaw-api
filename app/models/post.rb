@@ -9,6 +9,8 @@ class Post < ApplicationRecord
 
   scope :active, -> { where(hidden: false) }
 
+  mount_uploader :media, MediaUploader
+
   enum visibility: {
     everyone: 1,
     direct: 2,
