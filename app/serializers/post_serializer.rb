@@ -10,17 +10,25 @@ class PostSerializer < ActiveModel::Serializer
     :created_at
   )
 
+  def post
+    @post ||= object
+  end
+
   def type
-    object.class.name
+    post.class.name
   end
 
   def user
-    #anonymous? ? object.serialized_user(:anonymous) : object.serialized_user
-    object.serialized_user
+    #anonymous? ? post.serialized_user(:anonymous) : post.serialized_user
+    post.serialized_user
   end
 
   def created_at
-    time_ago_in_words(object.created_at)
+    time_ago_in_words(post.created_at)
+  end
+
+  def media
+    post.serialized_media
   end
 
   def permissions
@@ -35,22 +43,18 @@ class PostSerializer < ActiveModel::Serializer
 
     if user
 
-      if object.user_id == user.id
+      if post.user_id == user.id
         perms[:editable] = true
         perms[:hideable] = true
       end
 
-      if user.voted_up_on? object
+      if user.voted_up_on? post
         perms[:voted_for] = true
       end
 
     end
 
     perms
-  end
-
-  def self_link
-    nil
   end
 
 end

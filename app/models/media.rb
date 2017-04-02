@@ -1,3 +1,5 @@
+#currently unused
+#TODO remove or use
 class Media < ApplicationRecord
   belongs_to :user
   belongs_to :post
