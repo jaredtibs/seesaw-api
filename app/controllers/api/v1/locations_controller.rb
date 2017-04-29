@@ -15,9 +15,19 @@ class Api::V1::LocationsController < Api::V1::BaseController
   end
 
   def show
-    @location = LocationService.find_or_create_current_location(location_params.to_hash)
-    UserLocation.find_or_create_by(user_id: current_user.id, location_id: @location.id)
-    render json: @location, serializer: LocationSerializer, status: :ok
+    if location_params[:place_id]
+      @location = LocationService.find_or_create_factual_location(location_params.to_hash)
+    else
+      lat, long = location_params[:latitude], location_params[:longitude]
+      @location = LocationService.find_or_create_raw_location(lat, long)
+    end
+
+    if @location
+      UserLocation.find_or_create_by(user_id: current_user.id, location_id: @location.id)
+      render json: @location, serializer: LocationSerializer, status: :ok
+    else
+      render json: { error: "Location not found." }, status: :not_found
+    end
   end
 
   def posts
@@ -88,7 +98,6 @@ class Api::V1::LocationsController < Api::V1::BaseController
       :location,
       :place_id,
       :name,
-      :visibility,
       :category_ids => []
     )
   end
@@ -96,7 +105,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
   def post_params
     params.permit(
       :body,
-      :media
+      :media,
+      :visibility
     )
   end
 

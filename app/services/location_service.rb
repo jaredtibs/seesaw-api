@@ -6,16 +6,7 @@ class LocationService
       Location.near(coordinates, 0.0621371).first
     end
 
-   # example response
-   # {
-   #   "name":"Denny's",
-   #   "place_id": "84367f20-a94d-4ca3-899b-a13977791ccc",
-   #   "placerank": 75,
-   #   "distance": 29.279483443232,
-   #   "chain_id": "441411a9-2154-4e52-88ba-b6ac20c83401",
-   #   "confidence": 0.301628212288316
-   # }
-    def find_or_create_current_location(options={})
+    def find_or_create_factual_location(options={})
       options.symbolize_keys!
       location = Location.find_or_create_by place_id: options[:place_id]
       location = Location.new unless location.present?
@@ -27,33 +18,22 @@ class LocationService
       location
     end
 
-    # unused
-    def create_location_from_factual(factual_data)
-      data = factual_data.symbolize_keys
-
-      Location.create(
-        place_id: data[:place_id],
-        latitude: data[:latitude],
-        longitude: data[:longitude],
-        postal_code: data[:postcode],
-        city: data[:locality],
-        region: data[:region],
-        country: data[:country],
-        name: data[:name],
-        categories: data[:category_labels].flatten.uniq
-      )
-
-      # possibly seed other locations after this.
-    end
-
-    def create_raw_location(coordinates)
-
+    # takes coordinates, needs to reverse geocode to get the address
+    # might need to add a "raw" flag so that you can have specific logic for
+    # this type of location
+    def find_or_create_raw_location(lat, long)
+      location = Location.find_or_create_by latitude: lat, longitude: long
+      location = Location.new unless location.present?
+      #location.raw = true
+      location.save
+      location
     end
 
     def nearby_locations(coordinates)
       FactualApi.nearby_places(coordinates)
     end
 
+    #TODO
     def unseen_posts_for_user?(location, user)
       return false if location.nil?
       #...
