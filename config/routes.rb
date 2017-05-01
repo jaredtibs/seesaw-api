@@ -38,6 +38,9 @@ Rails.application.routes.draw do
         post 'posts/:id/unvote'   => 'posts#unvote'
         get 'posts/:id/upvotes'   => 'posts#upvotes'
         get 'posts/:id/downvotes' => 'posts#downvotes'
+
+        # notifications
+        get 'user/notifications' => 'notifications#index'
       end
 
     end
