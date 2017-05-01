@@ -5,14 +5,16 @@ class SendNotification
   def perform(options)
     options.symbolize_keys!
 
-    case options[:type]
+    case options[:type].to_sym
     when :upvote
       post = Post.find options[:post_id]
       user = User.find options[:user_id]
-      Notification.create(
-        user_id: post.user_id,
-        body: "#{user.username} upvoted your post"
-      )
+      unless post.user_id = user.id
+        Notification.create(
+          user_id: post.user_id,
+          body: "#{user.username} upvoted your post"
+        )
+      end
     end
 
   end
