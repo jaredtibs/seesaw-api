@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :user_locations
   has_many :locations, through: :user_locations
   has_many :posts
+  has_many :notifications
 
   validates :username, presence: true, length: { minimum: 2 },
             uniqueness: { case_sensitive: false }, on: [:create, :update]
