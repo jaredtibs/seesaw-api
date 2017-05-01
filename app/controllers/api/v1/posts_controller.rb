@@ -4,6 +4,11 @@ class Api::V1::PostsController < Api::V1::BaseController
 
   def upvote
     if current_user.upvote(@post)
+      SendNotification.perform_async(
+        type: 'upvote',
+        post_id: @post.id,
+        user_id: current_user.id
+      )
       @post.reload
       render json: @post, serializer: PostSerializer, status: :ok
     else

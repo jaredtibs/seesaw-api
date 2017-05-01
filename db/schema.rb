@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20170501012726) do
   create_table "notifications", force: :cascade do |t|
     t.integer "user_id"
     t.text    "body"
-    t.boolean "checked"
+    t.boolean "checked", default: false
     t.integer "kind"
   end
 
