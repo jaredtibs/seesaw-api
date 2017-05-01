@@ -9,7 +9,7 @@ class SendNotification
     when :upvote
       post = Post.find options[:post_id]
       user = User.find options[:user_id]
-      unless post.user_id = user.id
+      unless post.user_id == user.id
         Notification.create(
           user_id: post.user_id,
           body: "#{user.username} upvoted your post"
