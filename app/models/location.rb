@@ -17,6 +17,8 @@ class Location < ApplicationRecord
   after_validation :reverse_geocode, if: :raw_location?
   after_commit :fetch_location_data, on: :create
 
+  scope :raw, -> { where(place_id: nil) }
+
   def raw_location?
     self.place_id.nil?
   end
