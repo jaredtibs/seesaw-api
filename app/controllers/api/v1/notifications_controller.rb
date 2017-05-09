@@ -2,7 +2,7 @@ class Api::V1::NotificationsController < Api::V1::BaseController
   before_action :authenticate_user!
 
   def index
-    @notifications = current_user.notications
+    @notifications = current_user.notifications
     @notifications.update_all checked: true
 
     render json: @notifications,
