@@ -6,7 +6,8 @@ class User < ApplicationRecord
   has_many :user_locations
   has_many :locations, through: :user_locations
   has_many :posts
-  has_many :notifications
+  has_many :received_notifications,  :class_name => 'Notification', :foreign_key => 'receiver_id'
+  has_many :initiated_notifications, :class_name => 'Notification', :foreign_key => 'initiator_id'
 
   validates :username, presence: true, length: { minimum: 2 },
             uniqueness: { case_sensitive: false }, on: [:create, :update]
@@ -18,6 +19,10 @@ class User < ApplicationRecord
 
   def self.find_by_email_or_username(login)
     where("lower(username) = :value OR lower(email) = :value", value: login.downcase).first
+  end
+
+  def notifications
+    received_notifications
   end
 
   def image_data=(data)

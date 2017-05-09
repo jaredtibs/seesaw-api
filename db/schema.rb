@@ -48,10 +48,13 @@ ActiveRecord::Schema.define(version: 20170501012726) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "initiator_id"
+    t.integer "receiver_id"
     t.text    "body"
-    t.boolean "checked", default: false
+    t.boolean "checked",      default: false
     t.integer "kind"
+    t.index ["initiator_id"], name: "index_notifications_on_initiator_id", using: :btree
+    t.index ["receiver_id"], name: "index_notifications_on_receiver_id", using: :btree
   end
 
   create_table "posts", force: :cascade do |t|

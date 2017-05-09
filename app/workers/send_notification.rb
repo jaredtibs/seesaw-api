@@ -11,8 +11,9 @@ class SendNotification
       user = User.find options[:user_id]
       unless post.user_id == user.id
         Notification.create(
-          user_id: post.user_id,
-          body: "#{user.username} upvoted your post"
+          receiver_id: post.user_id,
+          initiator_id: user.id,
+          body: "upvoted your post."
         )
       end
     end

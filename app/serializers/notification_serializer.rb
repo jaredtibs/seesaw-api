@@ -2,6 +2,7 @@ class NotificationSerializer < ActiveModel::Serializer
 
   attributes(
     :user,
+    :initiator,
     :body,
     :checked
   )
@@ -11,7 +12,11 @@ class NotificationSerializer < ActiveModel::Serializer
   end
 
   def user
-    notification.serialized_user
+    notification.serialized_user(:receiver)
+  end
+
+  def initiator
+    notification.serialized_user(:initiator)
   end
 
 end
