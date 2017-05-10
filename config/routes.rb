@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
         # notifications
         get 'user/notifications' => 'notifications#index'
+        put 'user/notifications' => 'notifications#mark_as_read'
       end
 
     end

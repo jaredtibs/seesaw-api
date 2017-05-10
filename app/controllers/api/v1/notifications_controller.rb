@@ -3,7 +3,6 @@ class Api::V1::NotificationsController < Api::V1::BaseController
 
   def index
     @notifications = current_user.notifications
-    @notifications.update_all checked: true
 
     render json: @notifications,
       meta: {count: @notifications.count},
@@ -11,5 +10,20 @@ class Api::V1::NotificationsController < Api::V1::BaseController
       scope: current_user,
       scope_name: :current_user,
       status: :ok
+  end
+
+  def mark_as_read
+    @notifications = current_user.notifications
+
+    if @notifications.update_all checked: true
+      render json: @notifications,
+        meta: {count: @notifications.count},
+        each_serializer: NotificationSerializer,
+        scope: current_user,
+        scope_name: :current_user,
+        status: :ok
+    else
+      render json: {errors: "something went wrong"}, status: :unprocessable_entity
+    end
   end
 end
