@@ -6,6 +6,8 @@ class CreateNotifications < ActiveRecord::Migration[5.0]
       t.text :body
       t.boolean :checked, default: false
       t.integer :kind
+
+      t.timestamps null: false
     end
   end
 end
