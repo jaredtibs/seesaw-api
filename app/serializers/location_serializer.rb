@@ -1,6 +1,7 @@
 class LocationSerializer < ActiveModel::Serializer
 
   attributes(
+    :place_id,
     :name,
     :categories,
     :latitude,
