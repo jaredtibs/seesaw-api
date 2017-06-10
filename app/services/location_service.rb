@@ -6,7 +6,6 @@ class LocationService
       location = Location.find_by place_id: options[:place_id]
       location = Location.new unless location.present?
 
-      # update attributes organically
       location.latitude  = options[:latitude]
       location.longitude = options[:longitude]
       location.name = options[:name]
