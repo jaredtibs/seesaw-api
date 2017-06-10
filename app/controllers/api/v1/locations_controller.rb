@@ -3,6 +3,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
   before_action :find_location, only: [:create_post, :posts]
 
   # takes place id (from Engine) and checks for new posts for user
+  # will need to ping this every time the iOS background location tracking
+  # recognizes a change
   def ping
     @location = LocationService.find_current_location(params[:external_id])
 
@@ -23,7 +25,7 @@ class Api::V1::LocationsController < Api::V1::BaseController
     end
 
     if @location
-      UserLocation.find_or_create_by(user_id: current_user.id, location_id: @location.id)
+      LocationService.visit_for_user(current_user, @location)
       render json: @location, serializer: LocationSerializer, status: :ok
     else
       render json: { error: "Location not found." }, status: :not_found

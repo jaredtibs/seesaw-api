@@ -19,11 +19,12 @@ Rails.application.routes.draw do
         # users
         get  'users'           => 'users#index'
         get  'users/:username' => 'users#show'
+        get  'users/search'    => 'users#search'
         put  'user'            => 'users#update'
         put  'user/email'      => 'users#update_email'
+        put  'reset-password'  => 'users#update_password'
         post 'user/avatar'     => 'users#update_avatar'
         post 'reset-password'  => 'users#reset_password'
-        put  'reset-password'  => 'users#update_password'
 
         # locations
         get 'locations/ping'       => 'locations#ping'

@@ -2,6 +2,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   before_action :authenticate_user!, only: [
     :show,
     :index,
+    :search,
     :update,
     :update_email,
     :update_avatar
@@ -17,10 +18,21 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  # used as "top users" placeholder in search
   def index
-    @users = User.order('created_at desc')
+    @users = User.order('created_at desc').first(10)
     render json: @users,
       meta: { count: @users.count },
+      each_serializer: UserSerializer,
+      status: :ok
+  end
+
+  def search
+    query = params[:search_query] || nil
+    users = User.where('username ILIKE ?', "%#{query}%") if query
+    result = users || []
+    render json: result,
+      meta: { count: result.count },
       each_serializer: UserSerializer,
       status: :ok
   end

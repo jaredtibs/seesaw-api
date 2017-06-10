@@ -1,45 +1,40 @@
 class LocationService
   class << self
 
-    # unused
-    def find_current_location(coordinates)
-      Location.near(coordinates, 0.0621371).first
-    end
-
     def find_or_create_factual_location(options={})
       options.symbolize_keys!
-      location = Location.find_or_create_by place_id: options[:place_id]
+      location = Location.find_by place_id: options[:place_id]
       location = Location.new unless location.present?
 
-      location.name = options[:name]
       location.latitude  = options[:latitude]
       location.longitude = options[:longitude]
+      location.name = options[:name]
       location.save
       location
     end
 
-    # takes coordinates, needs to reverse geocode to get the address
-    # might need to add a "raw" flag so that you can have specific logic for
-    # this type of location
+    # creates a raw location, i.e. location not indexed by Factual Inc.
+    # reverse geocodes from lat, long to pull address after create
     def find_or_create_raw_location(lat, long)
-      location = Location.find_or_create_by latitude: lat, longitude: long
-      location = Location.new unless location.present?
-      #location.raw = true
-      location.save
-      location
+      Location.find_or_create_by latitude: lat, longitude: long
     end
 
-    def nearby_locations(coordinates)
-      FactualApi.nearby_places(coordinates)
+    def visit_for_user(user, location)
+      user_location = UserLocation.find_or_create_by user_id: user.id, location_id: location.id
+      user_location.last_here = DateTime.now
+      user_location.save
     end
 
-    #TODO
     def unseen_posts_for_user?(location, user)
-      return false if location.nil?
-      #...
+      user_location = UserLocation.find_by user_id: user.id, location_id: location.id
 
+      if user_location.nil?
+        location.posts.any? ? true : false
+      else
+        posts = Post.where('created_at > ?', user_location.last_here)
+        posts.any? ? true : false
+      end
     end
-
 
   end
 end
