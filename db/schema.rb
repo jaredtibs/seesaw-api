@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501012726) do
+ActiveRecord::Schema.define(version: 20170619041234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,13 +63,14 @@ ActiveRecord::Schema.define(version: 20170501012726) do
     t.text     "body"
     t.integer  "user_id"
     t.integer  "location_id"
-    t.boolean  "hidden",       default: false
+    t.boolean  "hidden",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "reported_by",  default: [],    array: true
-    t.integer  "upvote_count", default: 0
-    t.integer  "visibility",   default: 1
+    t.integer  "reported_by",         default: [],    array: true
+    t.integer  "upvote_count",        default: 0
+    t.integer  "visibility",          default: 1
     t.string   "media"
+    t.integer  "direct_participants", default: [],    array: true
   end
 
   create_table "user_locations", force: :cascade do |t|

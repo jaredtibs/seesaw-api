@@ -108,7 +108,8 @@ class Api::V1::LocationsController < Api::V1::BaseController
     params.permit(
       :body,
       :media,
-      :visibility
+      :visibility,
+      :direct_participants => []
     )
   end
 
