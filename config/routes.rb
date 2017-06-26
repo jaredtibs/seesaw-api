@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         # users
         get  'users'           => 'users#index'
         get  'users/:username' => 'users#show'
-        get  'users/search'    => 'users#search'
+        get  'search/users'    => 'users#search'
         put  'user'            => 'users#update'
         put  'user/email'      => 'users#update_email'
         put  'reset-password'  => 'users#update_password'

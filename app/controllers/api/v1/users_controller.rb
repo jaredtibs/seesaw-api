@@ -28,8 +28,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def search
-    query = params[:search_query] || nil
-    users = User.where('username ILIKE ?', "%#{query}%") if query
+    query = params[:query] || nil
+    users = User.where('username ILIKE ?', "#{query}%") if query
     result = users || []
     render json: result,
       meta: { count: result.count },
